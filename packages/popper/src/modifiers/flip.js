@@ -102,11 +102,13 @@ export default function flip(data, options) {
         (!isVertical && variation === 'start' && overflowsTop) ||
         (!isVertical && variation === 'end' && overflowsBottom));
 
-    if (overlapsRef || overflowsBoundaries || flippedVariation) {
+    const userDefinedShouldFlip = options.shouldFlipFn ? options.shouldFlipFn(data) : false;
+
+    if (overlapsRef || overflowsBoundaries || flippedVariation || userDefinedShouldFlip) {
       // this boolean to detect any flip loop
       data.flipped = true;
 
-      if (overlapsRef || overflowsBoundaries) {
+      if (overlapsRef || overflowsBoundaries || userDefinedShouldFlip) {
         placement = flipOrder[index + 1];
       }
 
